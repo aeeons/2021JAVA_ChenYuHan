@@ -8,21 +8,36 @@ public class indexFrame extends JFrame {
     //容器
     JPanel root = new JPanel();
 
-    //四个标签
-    JLabel labelName = new JLabel("品名");        //品名
-    JLabel labelPrice = new JLabel("价格");       //价格
-    JLabel labelType = new JLabel("类别");        //类别
-    JLabel labelMark = new JLabel("备注");        //备注
+    //七个标签
+    JLabel numberLabel = new JLabel("编号");
+    JLabel nameLabel = new JLabel("品名");        //品名
+    JLabel priceLabel = new JLabel("单价");       //价格
+    JLabel dateLabel = new JLabel("上市日期");
+    JLabel typeLabel = new JLabel("类别");        //类别
+    JLabel placeLabel = new JLabel("产地");
+    JLabel markLabel = new JLabel("备注");        //备注
 
-    //四个文本框
-    JTextField textName = new JTextField();             //品名输入框
-    JTextField textPrice = new JTextField();            //价格输入框
-    JTextField textType = new JTextField();             //类型输入框
-    JTextField textMark = new JTextField();             //备注输入框
+    //七个文本框
+    JTextField numberTextField = new JTextField();
+    JTextField nameTextField = new JTextField();             //品名输入框
+    JTextField priceTextField = new JTextField();            //价格输入框
+    JTextField dateTextField = new JTextField();
+    JTextField typeTextField = new JTextField();             //类型输入框
+    JTextField placeTextField = new JTextField();
+    JTextField markTextField = new JTextField();             //备注输入框
 
-    //两个按钮
-    JButton buttonSave = new JButton("保存");
-    JButton buttonOpen = new JButton("打开");
+    //三个按钮
+    ImageIcon openIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开.png");
+    JButton openButton = new JButton(openIcon);
+
+    ImageIcon addIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加.png");
+    JButton addButton = new JButton(addIcon);
+
+    ImageIcon exportIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出.png");
+    JButton exportButton = new JButton(exportIcon);
+
+    ImageIcon clearIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\清空.png");
+    JButton clearButton = new JButton(clearIcon);
 
     //列表
     DefaultTableModel defaultTableModel = null;         //表格样式
@@ -65,37 +80,65 @@ public class indexFrame extends JFrame {
     //标签初始化
     void LableInit() {
         //标签添加到容器中
-        root.add(labelName);
-        root.add(labelPrice);
-        root.add(labelType);
-        root.add(labelMark);
+        this.add(numberLabel);
+        this.add(nameLabel);
+        this.add(priceLabel);
+        this.add(dateLabel);
+        this.add(typeLabel);
+        this.add(placeLabel);
+        this.add(markLabel);
         //设置标签位置
-        labelName.setBounds(100, 70, 54, 20);
-        labelPrice.setBounds(100 * 3, 70, 54, 20);
-        labelType.setBounds(100 * 5, 70, 54, 20);
-        labelMark.setBounds(100 * 7, 70, 54, 20);
+        final int labelWidth = 54, labelHeight = 20;
+        numberLabel.setBounds(100, 70, labelWidth, labelHeight);
+        nameLabel.setBounds(100 * 3, 70, labelWidth, labelHeight);
+        priceLabel.setBounds(100 * 5, 70, labelWidth, labelHeight);
+        dateLabel.setBounds(100 * 7, 70, labelWidth, labelHeight);
+        typeLabel.setBounds(100 * 9, 70, labelWidth, labelHeight);
+        placeLabel.setBounds(100 * 11, 70, labelWidth, labelHeight);
+        markLabel.setBounds(100 * 13, 70, labelWidth, labelHeight);
     }
 
     void TextInit() {
         //文本框添加到容器中
-        root.add(textName);
-        root.add(textPrice);
-        root.add(textType);
-        root.add(textMark);
+        this.add(numberTextField);
+        this.add(nameTextField);
+        this.add(priceTextField);
+        this.add(dateTextField);
+        this.add(typeTextField);
+        this.add(placeTextField);
+        this.add(markTextField);
         //设置文本框位置
-        textName.setBounds(100, 110, 100, 30);
-        textPrice.setBounds(100 * 3, 110, 100, 30);
-        textType.setBounds(100 * 5, 110, 100, 30);
-        textMark.setBounds(100 * 7, 110, 200, 30);
+        final int textFieldWidth = 100, textFieldHeight = 30;
+
+        numberTextField.setBounds(100, 110, textFieldWidth, textFieldHeight);
+        nameTextField.setBounds(100 * 3, 110, textFieldWidth, textFieldHeight);
+        priceTextField.setBounds(100 * 5, 110, textFieldWidth, textFieldHeight);
+        dateTextField.setBounds(100 * 7, 110, textFieldWidth, textFieldHeight);
+        typeTextField.setBounds(100 * 9, 110, textFieldWidth, textFieldHeight);
+        placeTextField.setBounds(100 * 11, 110, textFieldWidth, textFieldHeight);
+        markTextField.setBounds(100 * 13, 110, textFieldWidth, textFieldHeight);
     }
 
     void ButtonInit() {
         //按钮添加到容器中
-        root.add(buttonOpen);
-        root.add(buttonSave);
+        this.add(openButton);
+        this.add(addButton);
+        this.add(exportButton);
+        this.add(clearButton);
+
+        //addButton.setContentAreaFilled(false);
+        openButton.setFocusPainted(false);
+        addButton.setFocusPainted(false);
+        exportButton.setFocusPainted(false);
+        clearButton.setFocusPainted(false);
+
+
         //设置按钮位置
-        buttonOpen.setBounds(100, 20, 100, 40);
-        buttonSave.setBounds(250, 20, 100, 40);
+        openButton.setBounds(100, 20, 40, 40);
+        exportButton.setBounds(180, 20, 40, 40);
+        addButton.setBounds(260, 20, 40, 40);
+        clearButton.setBounds(340, 20, 40, 40);
+
     }
 
 }
