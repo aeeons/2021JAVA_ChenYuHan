@@ -2,6 +2,8 @@ package SwingGUI;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class indexFrame extends JFrame {
     final int width = 1500, height = 800;
@@ -30,14 +32,18 @@ public class indexFrame extends JFrame {
     ImageIcon openIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开.png");
     JButton openButton = new JButton(openIcon);
 
-    ImageIcon addIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加.png");
-    JButton addButton = new JButton(addIcon);
-
     ImageIcon exportIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出.png");
     JButton exportButton = new JButton(exportIcon);
 
+    ImageIcon deleteIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\删除.png");
+    JButton deleteButton = new JButton(deleteIcon);
+
+    ImageIcon addIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加.png");
+    JButton addButton = new JButton(addIcon);
+
     ImageIcon clearIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\清空.png");
     JButton clearButton = new JButton(clearIcon);
+
 
     //列表
     DefaultTableModel defaultTableModel = null;         //表格样式
@@ -122,23 +128,204 @@ public class indexFrame extends JFrame {
     void ButtonInit() {
         //按钮添加到容器中
         this.add(openButton);
-        this.add(addButton);
+        this.add(deleteButton);
         this.add(exportButton);
+        this.add(addButton);
         this.add(clearButton);
 
         //addButton.setContentAreaFilled(false);
         openButton.setFocusPainted(false);
-        addButton.setFocusPainted(false);
+        openButton.setContentAreaFilled(false);
+        openButton.setBorderPainted(false);
+
         exportButton.setFocusPainted(false);
+        exportButton.setContentAreaFilled(false);
+        exportButton.setBorderPainted(false);
+
+        deleteButton.setFocusPainted(false);
+        deleteButton.setContentAreaFilled(false);
+        deleteButton.setBorderPainted(false);
+
+        addButton.setFocusPainted(false);
+        addButton.setContentAreaFilled(false);
+        addButton.setBorderPainted(false);
+
         clearButton.setFocusPainted(false);
+        clearButton.setContentAreaFilled(false);
+        clearButton.setBorderPainted(false);
 
 
         //设置按钮位置
         openButton.setBounds(100, 20, 40, 40);
         exportButton.setBounds(180, 20, 40, 40);
-        addButton.setBounds(260, 20, 40, 40);
-        clearButton.setBounds(340, 20, 40, 40);
+        deleteButton.setBounds(260, 20, 40, 40);
+        addButton.setBounds(340, 20, 40, 40);
+        clearButton.setBounds(420, 20, 40, 40);
 
+
+        //clearButton.addActionListener(new clearAction());
+        openButton.addMouseListener(new openMouseListener());
+        exportButton.addMouseListener(new exportMouseListener());
+        deleteButton.addMouseListener(new deleteMouseListener());
+        addButton.addMouseListener(new addMouseListener());
+        clearButton.addMouseListener(new clearMouseListener());
+    }
+
+    class openMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开3.png");
+            openButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            openButton.setIcon(openIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开2.png");
+            openButton.setIcon(enteredIcon);
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            openButton.setIcon(openIcon);
+        }
+    }
+
+    class exportMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出3.png");
+            exportButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            exportButton.setIcon(exportIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出2.png");
+            exportButton.setIcon(enteredIcon);
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            exportButton.setIcon(exportIcon);
+        }
+    }
+
+    class deleteMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\删除3.png");
+            deleteButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            deleteButton.setIcon(deleteIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\删除2.png");
+            deleteButton.setIcon(enteredIcon);
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            deleteButton.setIcon(deleteIcon);
+        }
+    }
+
+    class addMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加3.png");
+            addButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            addButton.setIcon(addIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加2.png");
+            addButton.setIcon(enteredIcon);
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            addButton.setIcon(addIcon);
+        }
+
+    }
+
+    class clearMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            numberTextField.setText("");
+            nameTextField.setText("");
+            priceTextField.setText("");
+            dateTextField.setText("");
+            typeTextField.setText("");
+            placeTextField.setText("");
+            markTextField.setText("");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\清空3.png");
+            clearButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            clearButton.setIcon(clearIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\清空2.png");
+            clearButton.setIcon(enteredIcon);
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            clearButton.setIcon(clearIcon);
+        }
     }
 
 }
