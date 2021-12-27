@@ -2,9 +2,8 @@ package SwingGUI;
 
 import javax.swing.*;
 
-public class login extends JFrame {
+public class loginFrame extends JFrame {
     final int width = 600, height = 305;
-
 
     //容器
     JPanel root = new JPanel();
@@ -85,4 +84,3 @@ public class login extends JFrame {
         //
     }
 }
-
