@@ -8,6 +8,8 @@ public class start {
         b.Init();
         registerFrameBoss c = new registerFrameBoss();
         c.Init();
+        indexFrame d = new indexFrame();
+        d.Init();
     }
 
 }
