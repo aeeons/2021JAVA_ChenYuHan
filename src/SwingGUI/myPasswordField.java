@@ -35,5 +35,3 @@ public class myPasswordField extends JPasswordField {
         });
     }
 }
-
-

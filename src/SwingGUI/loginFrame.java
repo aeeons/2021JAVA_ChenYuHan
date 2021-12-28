@@ -1,14 +1,14 @@
 package SwingGUI;
 
+import Functions.Check;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class loginFrame extends JFrame {
     final int width = 600, height = 305;
-
-    //容器
-    JPanel root = new JPanel();
+    JFrame root = this;
 
     //文本框
     JTextField userName = new JTextField();                 //账号输入框
@@ -29,13 +29,78 @@ public class loginFrame extends JFrame {
     ImageIcon registerStaffIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\员工注册.png");
     JButton registerStaffButton = new JButton(registerStaffIcon);
 
-    void Init() {
+    //弹窗
+    public static class faultDialog extends JDialog {
+        final int width = 275, height = 100;
+
+        //标签
+        JLabel welcome = new JLabel("账号或密码错误，请检查后再试");
+
+        //按钮
+        ImageIcon faultIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+        JButton returnButton = new JButton(faultIcon);
+
+        faultDialog() {
+            setTitle("商品信息管理系统-登陆失败");
+            setVisible(false);
+            setBounds(150, 150, width, height);
+            setResizable(false);
+            setLayout(null);
+
+            add(welcome);
+            welcome.setBounds(10, 10, 300, 40);
+
+            add(returnButton);
+            returnButton.setBounds(200, 10, 40, 40);
+            returnButton.setContentAreaFilled(false);
+            returnButton.setFocusPainted(false);
+            returnButton.setBorderPainted(false);
+            returnButton.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                    returnButton.setIcon(pressedIcon);
+                    setVisible(false);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                    returnButton.setIcon(pressedIcon);
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    returnButton.setIcon(faultIcon);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回.png");
+                    returnButton.setIcon(enteredIcon);
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    returnButton.setIcon(faultIcon);
+                }
+            });
+        }
+    }
+
+    faultDialog dialog = new faultDialog();
+
+    //注册界面
+    registerFrameBoss registerBoss = new registerFrameBoss(this);
+    registerFrameStaff registerStaff = new registerFrameStaff(this);
+
+    loginFrame() {
         this.setTitle("商品信息管理系统-登录");
         setBounds(100, 100, width, height);
         setVisible(true);
         setResizable(false);
-        root.setLayout(null);
-        this.setContentPane(root);
+        setLayout(null);
 
         //加载文本框z
         InitTextField();
@@ -98,7 +163,12 @@ public class loginFrame extends JFrame {
     class loginMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            if (new Check().CheckLogin(userName.getText(), userPassword.getText())) {
+                setVisible(false);
+                new indexFrame(root);
+            } else {
+                dialog.setVisible(true);
+            }
         }
 
         @Override
@@ -127,7 +197,8 @@ public class loginFrame extends JFrame {
     class registerStaffMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            setVisible(false);
+            registerStaff.setVisible(true);
         }
 
         @Override
@@ -156,7 +227,8 @@ public class loginFrame extends JFrame {
     class registerBossMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            setVisible(false);
+            registerBoss.setVisible(true);
         }
 
         @Override

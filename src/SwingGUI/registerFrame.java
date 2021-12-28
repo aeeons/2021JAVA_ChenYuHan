@@ -10,9 +10,8 @@ import java.awt.event.MouseListener;
 public class registerFrame extends JFrame {
     //设置大小
     final int width = 600, height = 305;
-
-    //容器
-    JPanel root = new JPanel();
+    JFrame origin;
+    JFrame root = this;
 
     //标签
     JLabel welcomeLabel = new JLabel("欢迎注册商品信息管理系统");
@@ -39,16 +38,141 @@ public class registerFrame extends JFrame {
     ImageIcon icon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册.png");
     JButton registerButton = new JButton(icon);
 
-    void Init() {
+    ImageIcon returnIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+    JButton returnButton = new JButton(returnIcon);
+
+    //弹窗
+    public class succeedDialog extends JDialog {
+        final int width = 275, height = 150;
+
+        //按钮
+        ImageIcon nextIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\继续.png");
+        JButton nextButton = new JButton(nextIcon);
+
+        //标签
+        JLabel welcome = new JLabel("注册成功!");
+
+        ImageIcon succeedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册成功.png");
+        JLabel succeed = new JLabel(succeedIcon);
+
+        succeedDialog() {
+            setTitle("商品信息管理系统-注册成功");
+            setVisible(true);
+            setBounds(250, 150, width, height);
+            setResizable(false);
+            setLayout(null);
+
+            add(succeed);
+            add(welcome);
+            succeed.setBounds(35, 40, 40, 40);
+            welcome.setBounds(85, 40, 100, 40);
+
+            add(nextButton);
+            nextButton.setBounds(175, 40, 40, 40);
+            nextButton.setContentAreaFilled(false);
+            nextButton.setFocusPainted(false);
+            nextButton.setBorderPainted(false);
+            nextButton.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    setVisible(false);
+                    new indexFrame(origin);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\继续3.png");
+                    nextButton.setIcon(pressedIcon);
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    nextButton.setIcon(nextIcon);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\继续2.png");
+                    nextButton.setIcon(enteredIcon);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    nextButton.setIcon(nextIcon);
+                }
+            });
+        }
+    }
+
+    public class faultDialog extends JDialog {
+        final int width = 275, height = 150;
+
+        //按钮
+        ImageIcon returnIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+        JButton returnButton = new JButton(returnIcon);
+
+        //标签
+        JLabel welcome = new JLabel();
+
+
+        faultDialog(String message) {
+            setTitle("商品信息管理系统-注册失败");
+            setVisible(true);
+            setBounds(250, 150, width, height);
+            setResizable(false);
+            setLayout(null);
+            welcome.setText(message);
+            add(welcome);
+            welcome.setBounds(105, 10, 100, 40);
+
+            add(returnButton);
+            returnButton.setBounds(108, 50, 40, 40);
+            returnButton.setContentAreaFilled(false);
+            returnButton.setFocusPainted(false);
+            returnButton.setBorderPainted(false);
+            returnButton.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    setVisible(false);
+                    new indexFrame(origin);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                    returnButton.setIcon(pressedIcon);
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    returnButton.setIcon(returnIcon);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回.png");
+                    returnButton.setIcon(enteredIcon);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    returnButton.setIcon(returnIcon);
+                }
+            });
+        }
+    }
+
+    registerFrame(JFrame origin) {
+        this.origin = origin;
         setBounds(100, 100, width, height);
-        setVisible(true);
+        setVisible(false);
         setResizable(false);
-        root.setLayout(null);
-        this.setContentPane(root);
+        setLayout(null);
 
         InitLabel();
         InitTextField();
         InitButton();
+
     }
 
     void InitLabel() {
@@ -86,36 +210,17 @@ public class registerFrame extends JFrame {
         registerButton.setContentAreaFilled(false);
         registerButton.setFocusPainted(false);
         registerButton.setBorderPainted(false);
+
+        returnButton.setContentAreaFilled(false);
+        returnButton.setFocusPainted(false);
+        returnButton.setBorderPainted(false);
+
         this.add(registerButton);
         registerButton.setBounds(400, 70, 140, 140);
-        registerButton.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册3.png");
-                registerButton.setIcon(pressedIcon);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                registerButton.setIcon(icon);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                ImageIcon enterIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册2.png");
-                registerButton.setIcon(enterIcon);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                registerButton.setIcon(icon);
-            }
-        });
+        this.add(returnButton);
+        returnButton.setBounds(10, 10, 40, 40);
+        returnButton.addMouseListener(new returnButtonMouseListener());
     }
 
     void RemindTextField(JTextField textField, String text) {
@@ -140,4 +245,37 @@ public class registerFrame extends JFrame {
             }
         });
     }
+
+    class returnButtonMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+            returnButton.setIcon(pressedIcon);
+            origin.setVisible(true);
+            setVisible(false);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+            returnButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            returnButton.setIcon(returnIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回.png");
+            returnButton.setIcon(enteredIcon);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            returnButton.setIcon(returnIcon);
+        }
+    }
+
 }
