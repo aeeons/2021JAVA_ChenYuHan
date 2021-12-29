@@ -8,7 +8,7 @@ public class faultDialog extends JDialog {
     final int width = 275, height = 150;
 
     //按钮
-    ImageIcon returnIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+    ImageIcon returnIcon = new ImageIcon("src\\SwingGUI\\img\\密码错误.png");
     JButton returnButton = new JButton(returnIcon);
 
     //标签
@@ -38,7 +38,7 @@ public class faultDialog extends JDialog {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\返回2.png");
                 returnButton.setIcon(pressedIcon);
             }
 
@@ -49,7 +49,7 @@ public class faultDialog extends JDialog {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回.png");
+                ImageIcon enteredIcon = new ImageIcon("src\\SwingGUI\\img\\返回.png");
                 returnButton.setIcon(enteredIcon);
             }
 

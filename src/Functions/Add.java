@@ -30,11 +30,11 @@ public class Add {
         }
     }
 
-    public void Add(String id, String name, String price, String date, String type, String place, String mark) {
+    public boolean Add(String id, String name, String price, String date, String type, String place, String mark) {
 
         //如果id或者name为空则失败
         if (!check(id, name)) {
-            return;
+            return false;
         }
 
         //如果id已存在则失败
@@ -47,7 +47,7 @@ public class Add {
                 stmt.executeUpdate(sql);
                 System.out.println(sql);
                 origin.tableLoad();
-                return;
+                return false;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -61,6 +61,7 @@ public class Add {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return true;
     }
 
     public boolean check(String id, String name) {

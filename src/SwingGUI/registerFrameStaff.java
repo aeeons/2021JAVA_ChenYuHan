@@ -52,7 +52,7 @@ public class registerFrameStaff extends registerFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册3.png");
+            ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\注册3.png");
             registerButton.setIcon(pressedIcon);
         }
 
@@ -63,7 +63,7 @@ public class registerFrameStaff extends registerFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon enterIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册2.png");
+            ImageIcon enterIcon = new ImageIcon("src\\SwingGUI\\img\\注册2.png");
             registerButton.setIcon(enterIcon);
         }
 

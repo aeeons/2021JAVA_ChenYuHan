@@ -9,10 +9,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class indexFrame extends JFrame {
@@ -21,6 +24,10 @@ public class indexFrame extends JFrame {
     String name;
     String company;
     String position;
+    //日志
+    FileReader fr;
+    FileWriter fw;
+
     //起源
     loginFrame origin;
     //容器
@@ -46,23 +53,27 @@ public class indexFrame extends JFrame {
     JTextField markTextField = new JTextField();             //备注输入框
     JTextField findTextField = new JTextField();
     //按钮
-    ImageIcon exportIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出.png");
+    ImageIcon exportIcon = new ImageIcon("src\\SwingGUI\\img\\导出.png");
     JButton exportButton = new JButton(exportIcon);
 
-    ImageIcon deleteIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\删除.png");
+    ImageIcon deleteIcon = new ImageIcon("src\\SwingGUI\\img\\删除.png");
     JButton deleteButton = new JButton(deleteIcon);
 
-    ImageIcon addIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\添加.png");
+    ImageIcon addIcon = new ImageIcon("src\\SwingGUI\\img\\添加.png");
     JButton addButton = new JButton(addIcon);
 
-    ImageIcon clearIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\清空.png");
+    ImageIcon clearIcon = new ImageIcon("src\\SwingGUI\\img\\清空.png");
     JButton clearButton = new JButton(clearIcon);
 
-    ImageIcon returnIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+    ImageIcon returnIcon = new ImageIcon("src\\SwingGUI\\img\\密码错误.png");
     JButton returnButton = new JButton(returnIcon);
 
-    ImageIcon findIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\查找.png");
+    ImageIcon findIcon = new ImageIcon("src\\SwingGUI\\img\\查找.png");
     JButton findButton = new JButton(findIcon);
+
+    //日志文本域
+    JDialog logDialog = new JDialog();
+    JTextArea logArea = new JTextArea();
 
     //列表
     public DefaultTableModel defaultTableModel = null;         //表格样式
@@ -73,7 +84,7 @@ public class indexFrame extends JFrame {
     };
     LinkedList<goods> tableList = new LinkedList<goods>();
 
-    indexFrame(loginFrame origin, String name) {
+    indexFrame(loginFrame origin, String name) throws IOException {
         this.name = name;
         this.origin = origin;
         //登录信息
@@ -94,6 +105,27 @@ public class indexFrame extends JFrame {
         //表格信息
         TableInit();    //设置表格
 
+        //加载日志
+        File logFile = new File("src\\log\\" + company + ".txt");
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+                fw = new FileWriter(logFile, true);
+                fw.write("-------------------------------\n");
+                fw.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        fr = new FileReader(logFile);
+        fw = new FileWriter(logFile, true);
+        fw.write("\n-------- " + getDate() + " --- " + name + " 登录了系统--------\n");
+        fw.flush();
+
+        //文本域
+        AreaInit();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     void getInfo() {
@@ -107,8 +139,6 @@ public class indexFrame extends JFrame {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        System.out.println("登陆成功" + name + " " + company + " " + position);
     }
 
     public void TableInit() {
@@ -149,6 +179,7 @@ public class indexFrame extends JFrame {
     }
 
     public void tableLoad() {
+        table.setFocusable(false);
         defaultTableModel = null;
         table.setModel(getDefaultTableModel());
         tableList = new Load(origin.conn).getTableList(company);
@@ -220,31 +251,36 @@ public class indexFrame extends JFrame {
         this.add(clearButton);
         this.add(findButton);
         this.add(returnButton);
-        //addButton.setContentAreaFilled(false);
 
         exportButton.setFocusPainted(false);
         exportButton.setContentAreaFilled(false);
         exportButton.setBorderPainted(false);
+        exportButton.setFocusable(false);
 
         deleteButton.setFocusPainted(false);
         deleteButton.setContentAreaFilled(false);
         deleteButton.setBorderPainted(false);
+        deleteButton.setFocusable(false);
 
         addButton.setFocusPainted(false);
         addButton.setContentAreaFilled(false);
         addButton.setBorderPainted(false);
+        addButton.setFocusable(false);
 
         clearButton.setFocusPainted(false);
         clearButton.setContentAreaFilled(false);
         clearButton.setBorderPainted(false);
+        clearButton.setFocusable(false);
 
         returnButton.setContentAreaFilled(false);
         returnButton.setFocusPainted(false);
         returnButton.setBorderPainted(false);
+        returnButton.setFocusable(false);
 
         findButton.setContentAreaFilled(false);
         findButton.setFocusPainted(false);
         findButton.setBorderPainted(false);
+        findButton.setFocusable(false);
 
         //设置按钮位置
         exportButton.setBounds(130, 20, 40, 40);
@@ -265,6 +301,29 @@ public class indexFrame extends JFrame {
 
     }
 
+    void AreaInit() throws IOException {
+        logDialog.setVisible(false);
+        logDialog.setResizable(false);
+        logDialog.setLayout(null);
+        JScrollPane scroll = new JScrollPane(logArea);
+        loadLogArea();
+
+        logArea.setEditable(false);
+        logDialog.add(scroll);
+        //scroll.setBounds(10, 10, 10, 10);
+        logDialog.setBounds(100, 100, 705, 480);
+        scroll.setBounds(20, 20, 650, 400);
+    }
+
+    void loadLogArea() throws IOException {
+        BufferedReader br = new BufferedReader(fr);
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            logArea.append(line + "\n");
+        }
+    }
+
     void findUpdate(goods o) {
         numberTextField.setText(o.id);
         nameTextField.setText(o.name);
@@ -278,7 +337,12 @@ public class indexFrame extends JFrame {
     class exportMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            logDialog.setVisible(true);
+            try {
+                loadLogArea();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
 
         @Override
@@ -311,11 +375,38 @@ public class indexFrame extends JFrame {
             if (row.length <= 0) {
                 return;
             }
+
+            try {
+                fw.write(root.name + " 在 " + getDate() + " 成功删除了数据: \n");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
             for (int i = 0; i < row.length; i++) {
                 String id = (String) table.getValueAt(row[0], 0);
+                String name = (String) table.getValueAt(row[0], 1);
+                String price = (String) table.getValueAt(row[0], 2);
+                String date = (String) table.getValueAt(row[0], 3);
+                String type = (String) table.getValueAt(row[0], 4);
+                String place = (String) table.getValueAt(row[0], 5);
+                String mark = (String) table.getValueAt(row[0], 6);
+
+                try {
+                    fw.write("id: " + row[0] + " ;name: " + name + " ;price: " + price + " ;date: " + date + " ;type: " + type + " ;place: " + place + " ;mark: " + mark + "\n");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+
                 int modelIndex = table.convertColumnIndexToModel(row[0]);
                 defaultTableModel.removeRow(modelIndex);
                 new Delete(origin.conn, root, company).Delete(id);
+
+            }
+            try {
+                fw.flush();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         }
 
@@ -354,8 +445,15 @@ public class indexFrame extends JFrame {
             String place = placeTextField.getText();
             String mark = markTextField.getText();
 
-            new Add(origin.conn, root, company).Add(id, name, price, date, type, place, mark);
-
+            if (new Add(origin.conn, root, company).Add(id, name, price, date, type, place, mark)) {
+                try {
+                    fw.write(root.name + " 在 " + getDate() + " 成功写入/修改了新数据: \n");
+                    fw.write("id: " + id + " ;name: " + name + " ;price: " + price + " ;date: " + date + " ;type: " + type + " ;place: " + place + " ;mark: " + mark + "\n");
+                    fw.flush();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
         }
 
         @Override
@@ -486,5 +584,10 @@ public class indexFrame extends JFrame {
         public void mouseExited(MouseEvent e) {
             returnButton.setIcon(returnIcon);
         }
+    }
+
+    String getDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return formatter.format(new Date());
     }
 }

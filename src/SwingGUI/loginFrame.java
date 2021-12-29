@@ -5,6 +5,7 @@ import Functions.Check;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -21,13 +22,13 @@ public class loginFrame extends JFrame {
     JLabel userPasswordLabel = new JLabel("密码");
 
     //按钮
-    ImageIcon loginIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\登录.png");
+    ImageIcon loginIcon = new ImageIcon("src\\SwingGUI\\img\\登录.png");
     JButton loginButton = new JButton(loginIcon);
 
-    ImageIcon registerBossIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\公司注册.png");
+    ImageIcon registerBossIcon = new ImageIcon("src\\SwingGUI\\img\\公司注册.png");
     JButton registerBossButton = new JButton(registerBossIcon);
 
-    ImageIcon registerStaffIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\员工注册.png");
+    ImageIcon registerStaffIcon = new ImageIcon("src\\SwingGUI\\img\\员工注册.png");
     JButton registerStaffButton = new JButton(registerStaffIcon);
 
     //弹窗
@@ -38,7 +39,7 @@ public class loginFrame extends JFrame {
         JLabel welcome = new JLabel("账号或密码错误，请检查后再试");
 
         //按钮
-        ImageIcon faultIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
+        ImageIcon faultIcon = new ImageIcon("src\\SwingGUI\\img\\密码错误.png");
         JButton returnButton = new JButton(faultIcon);
 
         faultDialog() {
@@ -59,14 +60,14 @@ public class loginFrame extends JFrame {
             returnButton.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                    ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\返回2.png");
                     returnButton.setIcon(pressedIcon);
                     setVisible(false);
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回2.png");
+                    ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\返回2.png");
                     returnButton.setIcon(pressedIcon);
                 }
 
@@ -77,7 +78,7 @@ public class loginFrame extends JFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\返回.png");
+                    ImageIcon enteredIcon = new ImageIcon("src\\SwingGUI\\img\\返回.png");
                     returnButton.setIcon(enteredIcon);
 
                 }
@@ -108,6 +109,7 @@ public class loginFrame extends JFrame {
         InitTextField();
         InitLabel();
         InitButton();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     void InitTextField() {
@@ -137,14 +139,17 @@ public class loginFrame extends JFrame {
         loginButton.setContentAreaFilled(false);
         loginButton.setFocusPainted(false);
         loginButton.setBorderPainted(false);
+        loginButton.setFocusable(false);
 
         registerBossButton.setFocusPainted(false);
         registerBossButton.setContentAreaFilled(false);
         registerBossButton.setBorderPainted(false);
+        registerBossButton.setFocusable(false);
 
         registerStaffButton.setFocusPainted(false);
         registerStaffButton.setContentAreaFilled(false);
         registerStaffButton.setBorderPainted(false);
+        registerStaffButton.setFocusable(false);
 
         //加载按钮
         this.add(loginButton);
@@ -169,7 +174,11 @@ public class loginFrame extends JFrame {
                 String password = userPassword.getText();
                 if (new Check(conn).CheckLogin(name, password)) {
                     setVisible(false);
-                    new indexFrame(root, name);
+                    try {
+                        new indexFrame(root, name);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 } else {
                     dialog.setVisible(true);
                 }
@@ -180,7 +189,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\登录3.png");
+            ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\登录3.png");
             loginButton.setIcon(pressedIcon);
         }
 
@@ -191,7 +200,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon enterIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\登录2.png");
+            ImageIcon enterIcon = new ImageIcon("src\\SwingGUI\\img\\登录2.png");
             loginButton.setIcon(enterIcon);
         }
 
@@ -210,7 +219,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\员工注册3.png");
+            ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\员工注册3.png");
             registerStaffButton.setIcon(pressedIcon);
         }
 
@@ -221,7 +230,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon enterIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\员工注册2.png");
+            ImageIcon enterIcon = new ImageIcon("src\\SwingGUI\\img\\员工注册2.png");
             registerStaffButton.setIcon(enterIcon);
         }
 
@@ -240,7 +249,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\公司注册3.png");
+            ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\公司注册3.png");
             registerBossButton.setIcon(pressedIcon);
         }
 
@@ -251,7 +260,7 @@ public class loginFrame extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon enterIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\公司注册2.png");
+            ImageIcon enterIcon = new ImageIcon("src\\SwingGUI\\img\\公司注册2.png");
             registerBossButton.setIcon(enterIcon);
         }
 
