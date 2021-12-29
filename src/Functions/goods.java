@@ -1,13 +1,13 @@
 package Functions;
 
 public class goods {
-    String id;
-    String name;
-    String price;
-    String date;
-    String type;
-    String place;
-    String mark;
+    public String id;
+    public String name;
+    public String price;
+    public String date;
+    public String type;
+    public String place;
+    public String mark;
 
     goods() {
 

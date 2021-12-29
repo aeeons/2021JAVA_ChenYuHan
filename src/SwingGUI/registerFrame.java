@@ -107,7 +107,7 @@ public class registerFrame extends JFrame {
         }
     }
 
-    public static class faultDialog extends JDialog {
+    /*public static class faultDialog extends JDialog {
         final int width = 275, height = 150;
 
         //按钮
@@ -162,7 +162,7 @@ public class registerFrame extends JFrame {
                 }
             });
         }
-    }
+    }*/
 
     registerFrame(loginFrame origin) {
         this.origin = origin;

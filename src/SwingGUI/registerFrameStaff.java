@@ -43,8 +43,10 @@ public class registerFrameStaff extends registerFrame {
                 new faultDialog("密码错误");
             } else if (flag == 3) {
                 new faultDialog("账号存在");
-            } else {
+            } else if (flag == 4) {
                 new faultDialog("公司不存在");
+            } else {
+                new faultDialog("未填写完整");
             }
         }
 

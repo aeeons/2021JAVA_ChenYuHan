@@ -23,7 +23,12 @@ public class Check {
 
 
     public int CheckBossRegister(String firstPassword, String secondPassword, String userName, String companyName) {
-        //1:登陆成功 2:密码不一致 3:账号已存在 4:公司已存在
+        //1:登陆成功 2:密码不一致 3:账号已存在 4:公司已存在 5:未填写完整
+
+        //未填写完整返回5
+        if (userName.equals("账号") || companyName.equals("公司") || firstPassword.equals("密码") || secondPassword.equals("确认密码")) {
+            return 5;
+        }
 
         //密码不一致返回2
         if (!firstPassword.equals(secondPassword)) {
@@ -56,7 +61,12 @@ public class Check {
     }
 
     public int CheckStaffRegister(String firstPassword, String secondPassword, String userName, String companyName) {
-        //1:登陆成功 2:密码不一致 3:账号已存在 4:公司不存在
+        //1:登陆成功 2:密码不一致 3:账号已存在 4:公司不存在 5:未填写完整
+
+        //未填写完整返回5
+        if (userName.equals("账号") || companyName.equals("公司") || firstPassword.equals("密码") || secondPassword.equals("确认密码")) {
+            return 5;
+        }
 
         //密码不一致返回2
         if (!firstPassword.equals(secondPassword)) {

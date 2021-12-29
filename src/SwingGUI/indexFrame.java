@@ -1,6 +1,7 @@
 package SwingGUI;
 
 import Functions.Add;
+import Functions.Delete;
 import Functions.Load;
 import Functions.goods;
 
@@ -33,8 +34,9 @@ public class indexFrame extends JFrame {
     JLabel typeLabel = new JLabel("类别");        //类别
     JLabel placeLabel = new JLabel("产地");
     JLabel markLabel = new JLabel("备注");        //备注
+    JLabel welcomeLabel = new JLabel("");
 
-    //七个文本框
+    //八个文本框
     JTextField numberTextField = new JTextField();
     JTextField nameTextField = new JTextField();             //品名输入框
     JTextField priceTextField = new JTextField();            //价格输入框
@@ -42,11 +44,8 @@ public class indexFrame extends JFrame {
     JTextField typeTextField = new JTextField();             //类型输入框
     JTextField placeTextField = new JTextField();
     JTextField markTextField = new JTextField();             //备注输入框
-
+    JTextField findTextField = new JTextField();
     //按钮
-    ImageIcon openIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开.png");
-    JButton openButton = new JButton(openIcon);
-
     ImageIcon exportIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\导出.png");
     JButton exportButton = new JButton(exportIcon);
 
@@ -62,9 +61,16 @@ public class indexFrame extends JFrame {
     ImageIcon returnIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\密码错误.png");
     JButton returnButton = new JButton(returnIcon);
 
+    ImageIcon findIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\查找.png");
+    JButton findButton = new JButton(findIcon);
+
     //列表
     public DefaultTableModel defaultTableModel = null;         //表格样式
-    JTable table = new JTable(0, 4);
+    JTable table = new JTable() {
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     LinkedList<goods> tableList = new LinkedList<goods>();
 
     indexFrame(loginFrame origin, String name) {
@@ -81,6 +87,7 @@ public class indexFrame extends JFrame {
 
         //顶部信息
         ButtonInit();   //设置按钮
+        welcomeLabel.setText(name + " ，您已成功登录 " + company + " 商品信息管理系统");
         LabelInit();    //设置标签
         TextInit();     //设置文本框
 
@@ -104,13 +111,46 @@ public class indexFrame extends JFrame {
         System.out.println("登陆成功" + name + " " + company + " " + position);
     }
 
-    void TableInit() {
+    public void TableInit() {
         table.setModel(getDefaultTableModel());             //加载表格样式
         table.setRowHeight(35);                             //设置行高
         JScrollPane tableScroll = new JScrollPane(table);   //滚动条
         root.add(tableScroll);
         tableScroll.setBounds(80, 170, width - 170, height - 250);//设置大小
 
+        tableLoad();
+        table.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.getSelectedRow();
+                findUpdate(tableList.get(row));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+    }
+
+    public void tableLoad() {
+        defaultTableModel = null;
+        table.setModel(getDefaultTableModel());
         tableList = new Load(origin.conn).getTableList(company);
 
         for (goods o : tableList) {
@@ -136,6 +176,7 @@ public class indexFrame extends JFrame {
         this.add(typeLabel);
         this.add(placeLabel);
         this.add(markLabel);
+        this.add(welcomeLabel);
         //设置标签位置
         final int labelWidth = 54, labelHeight = 20;
         numberLabel.setBounds(100, 70, labelWidth, labelHeight);
@@ -145,6 +186,7 @@ public class indexFrame extends JFrame {
         typeLabel.setBounds(100 * 9, 70, labelWidth, labelHeight);
         placeLabel.setBounds(100 * 11, 70, labelWidth, labelHeight);
         markLabel.setBounds(100 * 13, 70, labelWidth, labelHeight);
+        welcomeLabel.setBounds(100 * 7, 20, labelWidth * 10, labelHeight);
     }
 
     void TextInit() {
@@ -156,6 +198,7 @@ public class indexFrame extends JFrame {
         this.add(typeTextField);
         this.add(placeTextField);
         this.add(markTextField);
+        this.add(findTextField);
         //设置文本框位置
         final int textFieldWidth = 100, textFieldHeight = 30;
 
@@ -166,20 +209,18 @@ public class indexFrame extends JFrame {
         typeTextField.setBounds(100 * 9, 110, textFieldWidth, textFieldHeight);
         placeTextField.setBounds(100 * 11, 110, textFieldWidth, textFieldHeight);
         markTextField.setBounds(100 * 13, 110, textFieldWidth, textFieldHeight);
+        findTextField.setBounds(500, 23, textFieldWidth, textFieldHeight);
     }
 
     void ButtonInit() {
         //按钮添加到容器中
-        this.add(openButton);
         this.add(deleteButton);
         this.add(exportButton);
         this.add(addButton);
         this.add(clearButton);
+        this.add(findButton);
         this.add(returnButton);
         //addButton.setContentAreaFilled(false);
-        openButton.setFocusPainted(false);
-        openButton.setContentAreaFilled(false);
-        openButton.setBorderPainted(false);
 
         exportButton.setFocusPainted(false);
         exportButton.setContentAreaFilled(false);
@@ -201,53 +242,37 @@ public class indexFrame extends JFrame {
         returnButton.setFocusPainted(false);
         returnButton.setBorderPainted(false);
 
+        findButton.setContentAreaFilled(false);
+        findButton.setFocusPainted(false);
+        findButton.setBorderPainted(false);
+
         //设置按钮位置
-        openButton.setBounds(100, 20, 40, 40);
-        exportButton.setBounds(180, 20, 40, 40);
-        deleteButton.setBounds(260, 20, 40, 40);
-        addButton.setBounds(340, 20, 40, 40);
-        clearButton.setBounds(420, 20, 40, 40);
+        exportButton.setBounds(130, 20, 40, 40);
+        deleteButton.setBounds(210, 20, 40, 40);
+        addButton.setBounds(290, 20, 40, 40);
+        clearButton.setBounds(370, 20, 40, 40);
+        findButton.setBounds(450, 20, 40, 40);
         returnButton.setBounds(10, 10, 40, 40);
 
         //clearButton.addActionListener(new clearAction());
-        openButton.addMouseListener(new openMouseListener());
         exportButton.addMouseListener(new exportMouseListener());
         deleteButton.addMouseListener(new deleteMouseListener());
         addButton.addMouseListener(new addMouseListener());
         clearButton.addMouseListener(new clearMouseListener());
+        findButton.addMouseListener(new findMouseListener());
         returnButton.addMouseListener(new returnButtonMouseListener());
 
 
     }
 
-    class openMouseListener implements MouseListener {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开3.png");
-            openButton.setIcon(pressedIcon);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            openButton.setIcon(openIcon);
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开2.png");
-            openButton.setIcon(enteredIcon);
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            openButton.setIcon(openIcon);
-        }
+    void findUpdate(goods o) {
+        numberTextField.setText(o.id);
+        nameTextField.setText(o.name);
+        priceTextField.setText(o.price);
+        dateTextField.setText(o.date);
+        typeTextField.setText(o.type);
+        placeTextField.setText(o.place);
+        markTextField.setText(o.mark);
     }
 
     class exportMouseListener implements MouseListener {
@@ -287,9 +312,10 @@ public class indexFrame extends JFrame {
                 return;
             }
             for (int i = 0; i < row.length; i++) {
-                System.out.println(row[0]);
+                String id = (String) table.getValueAt(row[0], 0);
                 int modelIndex = table.convertColumnIndexToModel(row[0]);
                 defaultTableModel.removeRow(modelIndex);
+                new Delete(origin.conn, root, company).Delete(id);
             }
         }
 
@@ -355,6 +381,43 @@ public class indexFrame extends JFrame {
             addButton.setIcon(addIcon);
         }
 
+    }
+
+    class findMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String target = findTextField.getText();
+            findTextField.setText("");
+            for (Functions.goods goods : tableList) {
+                if (goods.id.equals(target)) {
+                    findUpdate(goods);
+                    return;
+                }
+            }
+            new faultDialog("编号不存在");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ImageIcon pressedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\查找3.png");
+            findButton.setIcon(pressedIcon);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            findButton.setIcon(findIcon);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon enteredIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\查找2.png");
+            findButton.setIcon(enteredIcon);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            findButton.setIcon(findIcon);
+        }
     }
 
     class clearMouseListener implements MouseListener {
@@ -424,6 +487,4 @@ public class indexFrame extends JFrame {
             returnButton.setIcon(returnIcon);
         }
     }
-
-
 }
