@@ -29,6 +29,10 @@ public class Register {
 
             sql = "insert into company(companyName) value('" + company + "')";
             stmt.executeUpdate(sql);
+
+            sql = createTable(company);
+            stmt.executeUpdate(sql);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -50,4 +54,17 @@ public class Register {
         return SQL;
     }
 
+    String createTable(String companyName) {
+        String SQL = "CREATE TABLE " + companyName + "(";
+        SQL += "id varchar(255),";
+        SQL += "name varchar(255),";
+        SQL += "price double,";
+        SQL += "data varchar(255),";
+        SQL += "type varchar(255),";
+        SQL += "place varchar(255),";
+        SQL += "mark varchar(255)";
+        SQL += ")";
+        System.out.println(SQL);
+        return SQL;
+    }
 }

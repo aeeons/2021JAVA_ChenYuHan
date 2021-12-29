@@ -4,15 +4,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class indexFrame extends JFrame {
     final int width = 1500, height = 800;
 
     //起源
-    JFrame origin;
+    loginFrame origin;
     //容器
     JPanel root = new JPanel();
 
@@ -57,7 +54,7 @@ public class indexFrame extends JFrame {
     DefaultTableModel defaultTableModel = null;         //表格样式
     JTable table = new JTable(0, 4);
 
-    indexFrame(JFrame origin)  {
+    indexFrame(loginFrame origin) {
         this.origin = origin;
         //基本设置
         this.setTitle("商品信息管理系统");              //设置标题

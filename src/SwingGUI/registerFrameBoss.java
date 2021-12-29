@@ -31,12 +31,12 @@ public class registerFrameBoss extends registerFrame {
             if (flag == 1) {
                 try {
                     new Register(origin.conn).RegisterBoss(name, password, company);
+                    setVisible(false);
+                    InitTextField();
+                    new succeedDialog();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-                setVisible(false);
-                InitTextField();
-                new succeedDialog();
             } else if (flag == 2) {
                 new faultDialog("密码错误");
             } else if (flag == 3) {

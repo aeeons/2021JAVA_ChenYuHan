@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class loginFrame extends JFrame {
     final int width = 600, height = 305;
-    JFrame root = this;
+    loginFrame root = this;
     Connection conn;
     //文本框
     JTextField userName = new JTextField();                 //账号输入框
