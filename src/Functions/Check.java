@@ -89,7 +89,9 @@ public class Check {
     }
 
     public boolean CheckLogin(String name, String password) {
+        //0:登陆失败 1:Boss登录 2:Staff登录
         sql = "select * from account where name = '" + name + "' and password = '" + password + "'";
+
         try {
             rs = stmt.executeQuery(sql);
             //如果用户名不存在 返回false

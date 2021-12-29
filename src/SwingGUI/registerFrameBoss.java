@@ -33,7 +33,7 @@ public class registerFrameBoss extends registerFrame {
                     new Register(origin.conn).RegisterBoss(name, password, company);
                     setVisible(false);
                     InitTextField();
-                    new succeedDialog();
+                    new succeedDialog(name);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

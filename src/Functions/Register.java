@@ -58,8 +58,8 @@ public class Register {
         String SQL = "CREATE TABLE " + companyName + "(";
         SQL += "id varchar(255),";
         SQL += "name varchar(255),";
-        SQL += "price double,";
-        SQL += "data varchar(255),";
+        SQL += "price varchar(255),";
+        SQL += "date varchar(255),";
         SQL += "type varchar(255),";
         SQL += "place varchar(255),";
         SQL += "mark varchar(255)";

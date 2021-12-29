@@ -15,7 +15,6 @@ public class loginFrame extends JFrame {
     //文本框
     JTextField userName = new JTextField();                 //账号输入框
     JPasswordField userPassword = new JPasswordField();     //密码输入框
-
     //标签
     JLabel welcomeLabel = new JLabel("欢迎使用 商品信息管理系统 ，祝您工作愉快");
     JLabel userNameLabel = new JLabel("登录");
@@ -127,7 +126,6 @@ public class loginFrame extends JFrame {
         this.add(userNameLabel);
         this.add(userPasswordLabel);
         this.add(welcomeLabel);
-
         final int labelWidth = 40, labelHeight = 40;
         userNameLabel.setBounds(60, 60, labelWidth, labelHeight);
         userPasswordLabel.setBounds(60, 120, labelWidth, labelHeight);
@@ -167,9 +165,11 @@ public class loginFrame extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             try {
-                if (new Check(conn).CheckLogin(userName.getText(), userPassword.getText())) {
+                String name = userName.getText();
+                String password = userPassword.getText();
+                if (new Check(conn).CheckLogin(name, password)) {
                     setVisible(false);
-                    new indexFrame(root);
+                    new indexFrame(root, name);
                 } else {
                     dialog.setVisible(true);
                 }

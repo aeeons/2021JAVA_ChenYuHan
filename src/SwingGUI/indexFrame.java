@@ -1,17 +1,29 @@
 package SwingGUI;
 
+import Functions.Add;
+import Functions.Load;
+import Functions.goods;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class indexFrame extends JFrame {
     final int width = 1500, height = 800;
-
+    //登录信息
+    String name;
+    String company;
+    String position;
     //起源
     loginFrame origin;
     //容器
-    JPanel root = new JPanel();
+    indexFrame root = this;
 
     //七个标签
     JLabel numberLabel = new JLabel("编号");
@@ -51,18 +63,21 @@ public class indexFrame extends JFrame {
     JButton returnButton = new JButton(returnIcon);
 
     //列表
-    DefaultTableModel defaultTableModel = null;         //表格样式
+    public DefaultTableModel defaultTableModel = null;         //表格样式
     JTable table = new JTable(0, 4);
+    LinkedList<goods> tableList = new LinkedList<goods>();
 
-    indexFrame(loginFrame origin) {
+    indexFrame(loginFrame origin, String name) {
+        this.name = name;
         this.origin = origin;
+        //登录信息
+        getInfo();
         //基本设置
         this.setTitle("商品信息管理系统");              //设置标题
         setBounds(100, 100, width, height);     //设置窗口大小
         setVisible(true);                            //设置窗口可见
         setResizable(false);                         //禁止修改窗口大小
-        root.setLayout(null);                        //绝对布局
-        this.setContentPane(root);                   //加载容器
+        setLayout(null);                        //绝对布局
 
         //顶部信息
         ButtonInit();   //设置按钮
@@ -71,15 +86,37 @@ public class indexFrame extends JFrame {
 
         //表格信息
         TableInit();    //设置表格
+
+    }
+
+    void getInfo() {
+        try {
+            String SQL = "select * from account where name='" + name + "'";
+            Statement stmt = origin.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            rs.next();
+            company = rs.getString("company");
+            position = rs.getString("position");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        System.out.println("登陆成功" + name + " " + company + " " + position);
     }
 
     void TableInit() {
-        table.setEnabled(false);                            //禁止修改表格
         table.setModel(getDefaultTableModel());             //加载表格样式
         table.setRowHeight(35);                             //设置行高
         JScrollPane tableScroll = new JScrollPane(table);   //滚动条
         root.add(tableScroll);
         tableScroll.setBounds(80, 170, width - 170, height - 250);//设置大小
+
+        tableList = new Load(origin.conn).getTableList(company);
+
+        for (goods o : tableList) {
+            System.out.println(Arrays.toString(o.getInfo()));
+            defaultTableModel.addRow(o.getInfo());
+        }
     }
 
     //返回表格样式
@@ -245,7 +282,15 @@ public class indexFrame extends JFrame {
     class deleteMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-
+            int[] row = table.getSelectedRows();
+            if (row.length <= 0) {
+                return;
+            }
+            for (int i = 0; i < row.length; i++) {
+                System.out.println(row[0]);
+                int modelIndex = table.convertColumnIndexToModel(row[0]);
+                defaultTableModel.removeRow(modelIndex);
+            }
         }
 
         @Override
@@ -275,6 +320,15 @@ public class indexFrame extends JFrame {
     class addMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
+            String id = numberTextField.getText();
+            String name = nameTextField.getText();
+            String price = priceTextField.getText();
+            String date = dateTextField.getText();
+            String type = typeTextField.getText();
+            String place = placeTextField.getText();
+            String mark = markTextField.getText();
+
+            new Add(origin.conn, root, company).Add(id, name, price, date, type, place, mark);
 
         }
 
@@ -370,4 +424,6 @@ public class indexFrame extends JFrame {
             returnButton.setIcon(returnIcon);
         }
     }
+
+
 }

@@ -38,7 +38,7 @@ public class registerFrameStaff extends registerFrame {
                 }
                 InitTextField();
                 setVisible(false);
-                new succeedDialog();
+                new succeedDialog(name);
             } else if (flag == 2) {
                 new faultDialog("密码错误");
             } else if (flag == 3) {

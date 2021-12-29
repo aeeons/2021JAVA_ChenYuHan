@@ -13,6 +13,7 @@ public class registerFrame extends JFrame {
     loginFrame origin;
     JFrame root = this;
 
+
     //标签
     JLabel welcomeLabel = new JLabel("欢迎注册商品信息管理系统");
     ImageIcon userNameIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\账号.png");
@@ -44,7 +45,8 @@ public class registerFrame extends JFrame {
     //弹窗
     public class succeedDialog extends JDialog {
         final int width = 275, height = 150;
-
+        //登录信息
+        String name;
         //按钮
         ImageIcon nextIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\继续.png");
         JButton nextButton = new JButton(nextIcon);
@@ -55,7 +57,8 @@ public class registerFrame extends JFrame {
         ImageIcon succeedIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\注册成功.png");
         JLabel succeed = new JLabel(succeedIcon);
 
-        succeedDialog() {
+        succeedDialog(String name) {
+            this.name = name;
             setTitle("商品信息管理系统-注册成功");
             setVisible(true);
             setBounds(250, 150, width, height);
@@ -76,7 +79,7 @@ public class registerFrame extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     setVisible(false);
-                    new indexFrame(origin);
+                    new indexFrame(origin, name);
                 }
 
                 @Override
