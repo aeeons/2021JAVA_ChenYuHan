@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 public class registerFrame extends JFrame {
     //设置大小
     final int width = 600, height = 305;
-    JFrame origin;
+    loginFrame origin;
     JFrame root = this;
 
     //标签
@@ -104,7 +104,7 @@ public class registerFrame extends JFrame {
         }
     }
 
-    public class faultDialog extends JDialog {
+    public static class faultDialog extends JDialog {
         final int width = 275, height = 150;
 
         //按钮
@@ -134,7 +134,6 @@ public class registerFrame extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     setVisible(false);
-                    new indexFrame(origin);
                 }
 
                 @Override
@@ -162,7 +161,7 @@ public class registerFrame extends JFrame {
         }
     }
 
-    registerFrame(JFrame origin) {
+    registerFrame(loginFrame origin) {
         this.origin = origin;
         setBounds(100, 100, width, height);
         setVisible(false);
@@ -195,6 +194,9 @@ public class registerFrame extends JFrame {
         this.add(userPassword);
         this.add(userPasswordAgain);
         this.add(companyName);
+
+        userPassword.Init("密码");
+        userPasswordAgain.Init("确认密码");
 
         final int textFieldWidth = 200, textFieldHeight = 30;
         userName.setBounds(140, 60, textFieldWidth, textFieldHeight);
@@ -253,6 +255,7 @@ public class registerFrame extends JFrame {
             returnButton.setIcon(pressedIcon);
             origin.setVisible(true);
             setVisible(false);
+            InitTextField();
         }
 
         @Override

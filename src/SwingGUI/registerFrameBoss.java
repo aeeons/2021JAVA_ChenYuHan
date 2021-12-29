@@ -1,29 +1,41 @@
 package SwingGUI;
 
 import Functions.Check;
+import Functions.Register;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 public class registerFrameBoss extends registerFrame {
-    registerFrameBoss(JFrame origin) {
+    registerFrameBoss(loginFrame origin) {
         super(origin);
         this.setTitle("商品信息管理系统-公司注册");
         registerButton.addMouseListener(new registerBossMouseListener());
     }
 
     class registerBossMouseListener implements MouseListener {
-        String password = userPassword.getText();
-        String passwordAgain = userPasswordAgain.getText();
-        String name = userName.getText();
-        String company = companyName.getText();
-
         @Override
         public void mouseClicked(MouseEvent e) {
-            int flag = new Check().CheckBossRegister(password, passwordAgain, name, company);
+            String password = userPassword.getText();
+            String passwordAgain = userPasswordAgain.getText();
+            String name = userName.getText();
+            String company = companyName.getText();
+            int flag = 0;
+            try {
+                flag = new Check(origin.conn).CheckBossRegister(password, passwordAgain, name, company);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             if (flag == 1) {
+                try {
+                    new Register(origin.conn).RegisterBoss(name, password, company);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 setVisible(false);
+                InitTextField();
                 new succeedDialog();
             } else if (flag == 2) {
                 new faultDialog("密码错误");

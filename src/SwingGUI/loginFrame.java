@@ -5,11 +5,13 @@ import Functions.Check;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class loginFrame extends JFrame {
     final int width = 600, height = 305;
     JFrame root = this;
-
+    Connection conn;
     //文本框
     JTextField userName = new JTextField();                 //账号输入框
     JPasswordField userPassword = new JPasswordField();     //密码输入框
@@ -95,7 +97,8 @@ public class loginFrame extends JFrame {
     registerFrameBoss registerBoss = new registerFrameBoss(this);
     registerFrameStaff registerStaff = new registerFrameStaff(this);
 
-    loginFrame() {
+    public loginFrame(Connection conn) {
+        this.conn = conn;
         this.setTitle("商品信息管理系统-登录");
         setBounds(100, 100, width, height);
         setVisible(true);
@@ -163,11 +166,15 @@ public class loginFrame extends JFrame {
     class loginMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (new Check().CheckLogin(userName.getText(), userPassword.getText())) {
-                setVisible(false);
-                new indexFrame(root);
-            } else {
-                dialog.setVisible(true);
+            try {
+                if (new Check(conn).CheckLogin(userName.getText(), userPassword.getText())) {
+                    setVisible(false);
+                    new indexFrame(root);
+                } else {
+                    dialog.setVisible(true);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
 

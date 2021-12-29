@@ -4,9 +4,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class indexFrame extends JFrame {
     final int width = 1500, height = 800;
+
+    //起源
     JFrame origin;
     //容器
     JPanel root = new JPanel();
@@ -29,7 +34,7 @@ public class indexFrame extends JFrame {
     JTextField placeTextField = new JTextField();
     JTextField markTextField = new JTextField();             //备注输入框
 
-    //三个按钮
+    //按钮
     ImageIcon openIcon = new ImageIcon("E:\\课设\\java课设\\商品信息管理系统\\src\\SwingGUI\\img\\打开.png");
     JButton openButton = new JButton(openIcon);
 
@@ -52,7 +57,7 @@ public class indexFrame extends JFrame {
     DefaultTableModel defaultTableModel = null;         //表格样式
     JTable table = new JTable(0, 4);
 
-    indexFrame(JFrame origin) {
+    indexFrame(JFrame origin)  {
         this.origin = origin;
         //基本设置
         this.setTitle("商品信息管理系统");              //设置标题
@@ -177,7 +182,6 @@ public class indexFrame extends JFrame {
         addButton.addMouseListener(new addMouseListener());
         clearButton.addMouseListener(new clearMouseListener());
         returnButton.addMouseListener(new returnButtonMouseListener());
-
 
 
     }
