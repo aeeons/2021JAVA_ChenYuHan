@@ -8,9 +8,9 @@ import java.sql.Statement;
 
 public class Delete {
     indexFrame origin;
-    Connection conn = null;
-    Statement stmt = null;
-    String company;
+    Connection conn = null; //数据库连接对象
+    Statement stmt = null;  //数据库操作对象
+    String company;         //要操作的表格
 
     public Delete() {
 
@@ -29,6 +29,7 @@ public class Delete {
 
     public void Delete(String id) {
         try {
+            //sql 删除操作语句 delete from _table_ where id =
             String sql = getSQl(id);
             stmt.executeUpdate(sql);
         } catch (SQLException throwables) {

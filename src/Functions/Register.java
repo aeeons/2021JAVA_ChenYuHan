@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Register {
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    Connection conn = null; //数据库链接对象
+    Statement stmt = null;  //数据库操作对象
+    ResultSet rs = null;    //返回结果集
     String sql;
 
     public Register() {
@@ -21,15 +21,19 @@ public class Register {
         rs = null;
     }
 
+    //公司注册
     public void RegisterBoss(String name, String password, String company) {
 
         try {
+            //sql 增加操作 insert into _table_(xxx,yyy,zzz) value(x,y,z)
             sql = getRegisterSQL(name, password, company, "Boss");
             stmt.executeUpdate(sql);
 
             sql = "insert into company(companyName) value('" + company + "')";
             stmt.executeUpdate(sql);
 
+            //公司注册需要新建表格
+            //sql 新建表格语句 create table _name_  (xxx _type_,....)
             sql = createTable(company);
             stmt.executeUpdate(sql);
 

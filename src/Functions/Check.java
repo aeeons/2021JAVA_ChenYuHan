@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Check {
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    Connection conn = null; //数据库连接对象
+    Statement stmt = null;  //数据库操作对象
+    ResultSet rs = null;    //查询结果集
     String sql;
 
     public Check() {
@@ -36,6 +36,7 @@ public class Check {
         }
 
         //账号已存在返回3
+        //sql 查询操作 select xxx from _table_ where yyy =
         sql = "select * from account where name = '" + userName + "'";
         try {
             rs = stmt.executeQuery(sql);
@@ -99,12 +100,11 @@ public class Check {
     }
 
     public boolean CheckLogin(String name, String password) {
-        //0:登陆失败 1:Boss登录 2:Staff登录
         sql = "select * from account where name = '" + name + "' and password = '" + password + "'";
 
         try {
             rs = stmt.executeQuery(sql);
-            //如果用户名不存在 返回false
+            //如果用户名存在 返回true
             if (rs.next()) {
                 return true;
             }

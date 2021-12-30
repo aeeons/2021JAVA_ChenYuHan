@@ -1,13 +1,13 @@
 package Functions;
 
 public class goods {
-    public String id;
-    public String name;
-    public String price;
-    public String date;
-    public String type;
-    public String place;
-    public String mark;
+    public String id;       //编号
+    public String name;     //品名
+    public String price;    //单价
+    public String date;     //日期
+    public String type;     //类型
+    public String place;    //产地
+    public String mark;     //备注
 
     goods() {
 

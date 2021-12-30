@@ -10,66 +10,79 @@ import java.sql.SQLException;
 
 public class registerFrameStaff extends registerFrame {
     registerFrameStaff(loginFrame origin) {
-        super(origin);
-        this.setTitle("商品信息管理系统-员工注册");
+        //信息初始化
+        super(origin);                              //调用父类构造方法
+        this.setTitle("商品信息管理系统-员工注册");      //设置窗口标题
+
+        //添加按钮事件
         registerButton.addMouseListener(new registerStaffMouseListener());
     }
 
     class registerStaffMouseListener implements MouseListener {
+        int flag;               //保存查询结果
+        String name;            //姓名
+        String company;         //公司
+        String password;        //密码
+        String passwordAgain;   //确认密码
+
+        //更新信息
+        void updateInfo() {
+            password = userPassword.getText();
+            passwordAgain = userPasswordAgain.getText();
+            name = userName.getText();
+            company = companyName.getText();
+            flag = 0;
+        }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            String password = userPassword.getText();
-            String passwordAgain = userPasswordAgain.getText();
-            String name = userName.getText();
-            String company = companyName.getText();
-            int flag = 0;
+            updateInfo();
             try {
                 flag = new Check(origin.conn).CheckStaffRegister(password, passwordAgain, name, company);
+                switch (flag) {
+                    case 1:         //为1说明注册成功
+                        new Register(origin.conn).RegisterStaff(name, password, company);
+                        InitTextField();
+                        setVisible(false);
+                        new succeedDialog(origin, name);
+                        break;
+                    case 2:
+                        new faultDialog("密码错误");
+                        break;
+                    case 3:
+                        new faultDialog("账号存在");
+                        break;
+                    case 4:
+                        new faultDialog("公司不存在");
+                        break;
+                    default:
+                        new faultDialog("未填写完整");
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            }
-            if (flag == 1) {
-
-                try {
-                    new Register(origin.conn).RegisterStaff(name, password, company);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-                InitTextField();
-                setVisible(false);
-                new succeedDialog(name);
-            } else if (flag == 2) {
-                new faultDialog("密码错误");
-            } else if (flag == 3) {
-                new faultDialog("账号存在");
-            } else if (flag == 4) {
-                new faultDialog("公司不存在");
-            } else {
-                new faultDialog("未填写完整");
             }
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            ImageIcon pressedIcon = new ImageIcon("src\\SwingGUI\\img\\注册3.png");
+            ImageIcon pressedIcon = new ImageIcon(path + "注册3.png");
             registerButton.setIcon(pressedIcon);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            registerButton.setIcon(icon);
+            registerButton.setIcon(registerIcon);
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon enterIcon = new ImageIcon("src\\SwingGUI\\img\\注册2.png");
+            ImageIcon enterIcon = new ImageIcon(path + "注册2.png");
             registerButton.setIcon(enterIcon);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            registerButton.setIcon(icon);
+            registerButton.setIcon(registerIcon);
         }
     }
 }
